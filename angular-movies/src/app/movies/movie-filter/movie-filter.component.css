@@ -1,0 +1,19 @@
+form {
+  width: 100%;
+}
+
+form mat-form-field {
+  width: 25%;
+}
+
+form mat-form-field:not(:last-of-type) {
+  margin-right: 1rem;
+}
+
+button {
+  margin-right: 1rem;
+}
+
+.clear-container {
+  margin-bottom: 1rem;
+}

@@ -1,0 +1,8 @@
+<h2>Edit Genre</h2>
+
+<app-display-errors [errors]="errors"></app-display-errors>
+
+<app-form-genre *ngIf="genre"
+  [genre]="genre" (saveGenre)="onSaveGenre($event)"></app-form-genre>
+
+<mat-spinner *ngIf="!genre"></mat-spinner>  

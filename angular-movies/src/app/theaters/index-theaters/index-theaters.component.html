@@ -1,0 +1,43 @@
+<h2>Movie Theaters</h2>
+
+<a mat-flat-button color="primary" routerLink="/theaters/create">Create New Theater</a>
+
+<app-generic-list [list]="theaters">
+  <ng-container content>
+    <table mat-table [dataSource]="theaters" class="mat-elevation-z8 table-index">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container> 
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <a routerLink="/theaters/edit/{{element.id}}"
+            mat-flat-button color="primary"
+          >Edit</a>
+          <button  mat-flat-button color="warn"
+            [swal]="{ 
+              title: 'Confirmation', 
+              text: 'Are you sure you want to delete this theater?',
+              showCancelButton: true
+            }"
+            (confirm)="delete(element.id)"
+          >Delete</button>
+        </td>
+      </ng-container>   
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>          
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>    
+    </table>
+
+    <!-- <mat-paginator 
+      class="mat-elevation-z8"
+      [pageSizeOptions]="[5, 10, 20, 50]" 
+      showFirstLastButtons="true"
+      [length]="totalCount"
+      [pageSize]="pageSize"
+      (page)="updatePagination($event)"
+    >
+    </mat-paginator> -->
+
+  </ng-container>
+</app-generic-list>

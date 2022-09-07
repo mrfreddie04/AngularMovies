@@ -1,0 +1,12 @@
+<h2>Create Movie</h2>
+
+<app-display-errors [errors]="errors"></app-display-errors>
+
+<app-form-movie 
+  *ngIf="nonSelectedGenres && nonSelectedTheaters"
+  [nonSelectedGenres]="nonSelectedGenres"
+  [nonSelectedTheaters]="nonSelectedTheaters"
+  (saveMovie)="onSaveMovie($event)"
+></app-form-movie>
+
+<mat-spinner *ngIf="!nonSelectedGenres"></mat-spinner>

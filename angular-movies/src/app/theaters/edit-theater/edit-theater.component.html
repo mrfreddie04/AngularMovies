@@ -1,0 +1,6 @@
+<h2>Edit Theater</h2>
+
+<app-theater-form *ngIf="theater" 
+  [theater]="theater" (saveTheater)="onSaveTheater($event)"></app-theater-form>
+
+<mat-spinner *ngIf="!theater"></mat-spinner>  

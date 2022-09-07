@@ -1,0 +1,11 @@
+<form [formGroup]="form" (ngSubmit)="onSaveGenre()">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input type="text" formControlName="name" matInput />
+    <mat-error *ngIf="form.get('name').errors">{{getErrorMessage('name')}}</mat-error>
+  </mat-form-field>
+  <div>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Save Genre</button>
+    <a mat-stroked-button routerLink="/genres">Cancel</a>
+  </div>
+</form>

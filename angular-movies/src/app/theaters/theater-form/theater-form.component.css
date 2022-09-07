@@ -1,0 +1,8 @@
+button {
+  margin-right: 1rem;
+}
+
+.map-container {
+  position: relative;
+  height: 650px;
+}

@@ -1,0 +1,20 @@
+form {
+  width: 100%;
+  max-width: 500px;
+}
+
+max-form-field {
+  width: 100%;
+}
+
+img {
+  object-fit: cover; 
+  vertical-align: middle;
+  margin-right: 8px;
+  width: 35px;
+  height: 45px;
+}
+
+mat-icon {
+  cursor: pointer;
+}

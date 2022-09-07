@@ -1,0 +1,33 @@
+.movie-container {
+  margin-right: 2%;
+  text-align: center;
+  margin-bottom: 0.625rem;
+}
+
+.movies-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.movie-container p {
+  max-width: 14rem;
+  height: 2.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.movie-container img { 
+  width: 14rem;
+  height: 18.75rem;
+}
+
+.movie-container button { 
+  margin-left: 1rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}

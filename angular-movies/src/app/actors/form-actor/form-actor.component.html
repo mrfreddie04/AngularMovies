@@ -1,0 +1,34 @@
+<form [formGroup]="form" (ngSubmit)="onSaveActor()">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input type="text" formControlName="name" matInput />
+    <mat-error *ngIf="form.get('name').errors">{{getErrorMessage('name')}}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Date of Birth</mat-label>
+    <input type="text" formControlName="dateOfBirth" matInput [matDatepicker]="picker"/>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="form.get('dateOfBirth').errors">{{getErrorMessage('dateOfBirth')}}</mat-error>
+  </mat-form-field>  
+
+  <h4>Select Picture</h4>
+  <app-input-img 
+    [imageUrl]="actor?.picture" 
+    (onImageSelected)="onImageSelected($event)"
+  ></app-input-img>
+
+  <h4>Biography</h4>
+  <app-input-markdown 
+    [markdownContent]="actor?.biography"
+    (updateMarkdown)="onUpdateMarkdown($event)"
+    label="Biography"
+  ></app-input-markdown>
+
+  <div>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Save Actor</button>
+    <a mat-stroked-button routerLink="/actors">Cancel</a>
+  </div>
+</form>
+

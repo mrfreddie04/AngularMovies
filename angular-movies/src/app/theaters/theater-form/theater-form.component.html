@@ -1,0 +1,17 @@
+<form [formGroup]="form" (ngSubmit)="onSaveTheater()">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input formControlName="name" type="text" matInput>
+    <mat-error *ngIf="isErrors('name')">{{getErrorMessage('name')}}</mat-error>
+  </mat-form-field>
+
+  <h4>Select location of the theater</h4>
+  <div class="map-container">
+    <app-map [initialCoordinates]="initialCoordinates" (onSelectLocation)="onSelectLocation($event)"></app-map>
+  </div>
+
+  <div>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Save Theater</button>
+    <a mat-stroked-button routerLink="/theaters">Cancel</a>
+  </div>  
+</form>
