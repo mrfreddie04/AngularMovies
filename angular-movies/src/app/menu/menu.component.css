@@ -4,3 +4,16 @@
   top: 0;
   z-index: 100;
 }
+
+app-authorize-view {
+  display: flex;
+}
+
+.align-end {
+  margin-left: auto;
+}
+
+/* .space {
+  margin-left: auto;
+  display: flex;
+} */

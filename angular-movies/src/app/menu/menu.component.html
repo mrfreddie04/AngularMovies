@@ -10,16 +10,37 @@
       Search Movie
     </a>
   </div>  
-  <div>
-    <a routerLink="/genres" mat-button>Genres</a>
-  </div>
-  <div>
-    <a routerLink="/actors" mat-button>Actors</a>
-  </div>
-  <div>
-    <a routerLink="/theaters" mat-button>Theaters</a>
-  </div>
-  <div>
-    <a routerLink="/movies/create" mat-button>Create Movie</a>
-  </div>      
+  <app-authorize-view role="admin">
+    <ng-container authorized>
+      <div>
+        <a routerLink="/genres" mat-button>Genres</a>
+      </div>
+      <div>
+        <a routerLink="/actors" mat-button>Actors</a>
+      </div>
+      <div>
+        <a routerLink="/theaters" mat-button>Theaters</a>
+      </div>
+      <div>
+        <a routerLink="/movies/create" mat-button>Create Movie</a>
+      </div>        
+      <div>
+        <a routerLink="/users" mat-button>Users</a>
+      </div>           
+    </ng-container>
+  </app-authorize-view>
+  
+  <!-- <div class="space"></div>  -->
+
+  <app-authorize-view class="align-end">
+    <ng-container authorized>  
+      <span>Hello, {{(currentAccount$ | async)?.email}}</span>
+      <a mat-button (click)="logout()">Logout</a>
+    </ng-container>       
+    <ng-container notAuthorized>      
+      <a routerLink="/login" mat-button>Login</a>
+      <a routerLink="/register" mat-button>Register</a>
+    </ng-container>             
+  </app-authorize-view>
+
 </mat-toolbar>

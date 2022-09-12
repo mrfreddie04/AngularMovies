@@ -12,11 +12,16 @@ export const toBase64 = (file: File): Promise<string>  => {
 export const parseWebApiErrors = (response: any): string[] => {
   const result: string[] = [];
 
+  console.log("API Response", response);
+
   if(response.error) {
-    if(typeof response.error === "string") {
-      result.push(response.error);
+    const error = response.error;
+    if(typeof error === "string") {
+      result.push(error);
+    } else if(Array.isArray(error)) {      
+      result.push(...error.map( err => err.description));
     } else {
-      const mapErrors = response.error.errors;
+      const mapErrors = error.errors;
       const entries = Object.entries(mapErrors);
       entries.forEach(([field,errors]) => {
         if(Array.isArray(errors)) {
@@ -44,10 +49,22 @@ export const formatDateFormData = (date: Date): string => {
 
 export const getErrorMessage = (form: FormGroup) => {
   return (fieldName: string): string => {
-    const field = form.get(fieldName);
-    console.log("Error",field.errors);
-    if(field.hasError('required')) return `The "${fieldName}" field is required`;
-    if(field.hasError('capitalized')) return field.getError('capitalized').message;
+    const field = form.get(fieldName);    
+    for(let error of Object.keys(field.errors)) {
+      const err = field.errors[error];
+      if(error === 'required') return `"Field is required.`;
+      if(error === 'capitalized') return field.getError('capitalized').message;
+      if(error === 'email') return `Invalid email format.`;
+      if(error === 'minlength') {
+        return `Value you entered is ${err.actualLength} chars long. It must be at least ${err.requiredLength} chars long.`
+      }       
+    };
+    // if(field.hasError('required')) return `The "${fieldName}" field is required`;
+    // if(field.hasError('capitalized')) return field.getError('capitalized').message;
+    // if(field.hasError('email')) return `Invalid email format`;
+    // if(field.hasError('minLength')) {
+    //   return `The "${fieldName}" field`;
+    // }  
     return "";
   }  
 }

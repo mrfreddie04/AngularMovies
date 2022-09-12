@@ -1,0 +1,18 @@
+<h3>{{action}}</h3>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input type="text" formControlName="email" matInput />
+    <mat-error *ngIf="form.get('email').errors">{{getErrorMessage('email')}}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input type="password" formControlName="password" matInput />
+    <mat-error *ngIf="form.get('password').errors">{{getErrorMessage('password')}}</mat-error>
+  </mat-form-field>  
+  <div>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">{{action}}</button>
+    <a mat-stroked-button routerLink="/">Cancel</a>
+  </div>
+</form>

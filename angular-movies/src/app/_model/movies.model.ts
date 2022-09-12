@@ -41,6 +41,8 @@ export interface MovieDTO {
   genres: GenreDTO[];
   theaters: TheaterDTO[];
   actors: ActorMovieDTO[];
+  averageVote: number;
+  userVote: number;
 }
 
 export interface HomeDTO {

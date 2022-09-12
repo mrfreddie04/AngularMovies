@@ -23,6 +23,7 @@
     "@asymmetrik/ngx-leaflet": "^13.0.2",
     "@sweetalert2/ngx-sweetalert2": "^11.0.0",
     "@types/leaflet": "^1.7.11",
+    "js-base64": "^3.7.2",
     "leaflet": "^1.8.0",
     "ngx-markdown": "^13.1.0",
     "rxjs": "~7.5.0",

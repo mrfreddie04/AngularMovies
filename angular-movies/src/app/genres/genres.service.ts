@@ -1,9 +1,9 @@
-import { GenreCreateDTO } from './../_model/genres.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GenreDTO } from '../_model/genres.model';
 import { environment } from "./../../environments/environment";
+import { GenreCreateDTO } from './../_model/genres.model';
 
 @Injectable({
   providedIn: 'root'

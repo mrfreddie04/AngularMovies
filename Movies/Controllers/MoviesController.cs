@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
@@ -16,25 +19,30 @@ namespace Movies.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+  [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "IsAdmin")]
   public class MoviesController : ControllerBase
   {
     private readonly ApplicationDbContext _context;
+    private readonly UserManager<IdentityUser> _userManager;
     private readonly IMapper _mapper;
     private readonly IFileStorageService _fileStorageService;
     private readonly string ContainerName = "posters";
 
     public MoviesController(
       ApplicationDbContext context,
+      UserManager<IdentityUser> userManager,
       IMapper mapper,
       IFileStorageService fileStorageService
     )
     {
       _context = context;
+      _userManager = userManager;
       _mapper = mapper;
       _fileStorageService = fileStorageService;
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<HomeDTO>> Get()
     {
       var top = 6;
@@ -58,6 +66,7 @@ namespace Movies.Controllers
     }
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public async Task<ActionResult<MovieDTO>> GetById([FromRoute] int id)
     {
       var movie = await _context.Movies
@@ -71,13 +80,38 @@ namespace Movies.Controllers
         return BadRequest("Movie not found");
       }
 
+      var averageVote = 0.0;
+      var userVote = 0;
+
+      if(await _context.Ratings.AnyAsync( rating => rating.MovieId == id)) 
+      {
+        averageVote = await _context.Ratings.Where(rating => rating.MovieId == id)
+          .AverageAsync(rating => rating.Rate);
+
+        if(HttpContext.User.Identity.IsAuthenticated)
+        {
+          var email = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "email").Value;
+          var user = await _userManager.FindByEmailAsync(email);
+          var userId = user.Id;
+          var ratingDb = await _context.Ratings.FirstOrDefaultAsync(
+            rating => rating.MovieId == id && rating.UserId == userId);
+          if(ratingDb != null)
+          {
+            userVote = ratingDb.Rate;
+          }          
+        }        
+      }
+
       var movieDTO = _mapper.Map<MovieDTO>(movie);
+      movieDTO.AverageVote = averageVote;
+      movieDTO.UserVote = userVote;
       movieDTO.Actors = movieDTO.Actors.OrderBy(a => a.Order).ToList();
 
       return Ok(movieDTO);
     }
 
     [HttpGet("filter")]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<MovieDTO>>> GetFilter([FromQuery] FilterMovieDTO filterMovieDTO)
     {
       var query = _context.Movies.AsQueryable();

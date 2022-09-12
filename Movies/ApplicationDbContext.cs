@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using Movies.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Movies
 {
-  public class ApplicationDbContext : DbContext
+  public class ApplicationDbContext : IdentityDbContext
   {
     public ApplicationDbContext([NotNullAttribute] DbContextOptions options) : base(options)
     {
@@ -17,6 +18,7 @@ namespace Movies
     public DbSet<MovieActor> MoviesActors { get; set; }
     public DbSet<MovieGenre> MoviesGenres { get; set; }
     public DbSet<MovieTheater> MoviesTheaters { get; set; }
+    public DbSet<Rating> Ratings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,7 +26,7 @@ namespace Movies
       modelBuilder.Entity<MovieGenre>().HasKey(p => new { p.MovieId, p.GenreId });
       modelBuilder.Entity<MovieTheater>().HasKey(p => new { p.MovieId, p.TheaterId });
 
-      //needed for Auth System!!!
+      //needed for Identity System!!!
       base.OnModelCreating(modelBuilder);
     }
 

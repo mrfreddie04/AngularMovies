@@ -1,0 +1,48 @@
+<h2>Users</h2>
+
+<a mat-flat-button color="primary" routerLink="/actors/create">Create New User</a>
+
+<app-generic-list [list]="users">
+  <ng-container content>
+    <table mat-table [dataSource]="users" class="mat-elevation-z8 table-index">
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">{{element.email}}</td>
+      </ng-container>     
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-flat-button color="primary"
+            [swal]="{ 
+              title: 'Confirmation', 
+              text: 'Are you sure you want to make this user an Admin?',
+              showCancelButton: true
+            }"
+            (confirm)="makeAdmin(element.id)"
+          >Make Admin</button>          
+          <button mat-flat-button color="warn"
+            [swal]="{ 
+              title: 'Confirmation', 
+              text: 'Are you sure you remove this user from Admins?',
+              showCancelButton: true
+            }"
+            (confirm)="removeAdmin(element.id)"
+          >Remove Admin</button>
+        </td>
+      </ng-container>   
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>          
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>    
+    </table>
+
+    <mat-paginator 
+      class="mat-elevation-z8"
+      [pageSizeOptions]="[5, 10, 20, 50]" 
+      showFirstLastButtons="true"
+      [length]="totalCount"
+      [pageSize]="pageSize"
+      (page)="updatePagination($event)"
+    >
+    </mat-paginator>
+
+  </ng-container>
+</app-generic-list>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Movies.DTOs;
 using Movies.Entities;
@@ -41,6 +42,8 @@ namespace Movies.Helpers
         .ForMember(dest => dest.Genres, options => options.MapFrom(MapMoviesGenres))
         .ForMember(dest => dest.Theaters, options => options.MapFrom(MapMoviesTheaters))
         .ForMember(dest => dest.Actors, options => options.MapFrom(MapMoviesActors));
+
+      CreateMap<IdentityUser, UserDTO>();
     }
 
     private List<ActorMovieDTO> MapMoviesActors(Movie movie, MovieDTO movieDTO)
